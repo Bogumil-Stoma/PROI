@@ -92,28 +92,27 @@ istream& operator>>(istream& is, Collection& f)
     //is.getline(name, 100);
     while (!(is.eof()))
     {
+        //GameObject* x = new StandardObject({});
         GameObject* x = new StandardObject({});
         is >> name;
         if (name[0] == 's')
         {
-            GameObject* x = new SlowingObject({});
+            x = new SlowingObject({});
         }
         else if (name[0] == 'f')
         {
-            GameObject* x = new FallingObject({});
+            x = new FallingObject({});
         }
         else if (name[0] == 'i')
         {
-            GameObject* x = new IndestructibleObject({});
-        }
-        else if (name[0] == 't')
-        {
-            GameObject* x = new StandardObject({});
+            x = new IndestructibleObject({});
         }
         int i;
         is >> i;
         int a, b;
         char c;
+        if (i == 0)
+            break;
         while (i > 0)
         {
             is >> a;
@@ -122,6 +121,7 @@ istream& operator>>(istream& is, Collection& f)
             x->add(a, b, c);
             i--;
         }
+        
         f.add(x);
     }
     return is;
@@ -144,7 +144,27 @@ bool Vect2::operator>(const Vect2& s) const
 
 bool Vect2::operator!=(const Vect2& s) const
 {
-    return not(this->x == s.x && this->y == s.y);
+    return !(this->x == s.x && this->y == s.y);
+}
+
+Vect2 Vect2::operator+(const Vect2& s) const
+{
+    return Vect2(x + s.x, y + s.y);
+}
+
+Vect2 Vect2::operator*(const int& s) const
+{
+    return Vect2(x * s, y * s);
+}
+
+Vect2 Vect2::operator-(const Vect2& s) const
+{
+    return Vect2(x - s.x, y - s.y);
+}
+
+Vect2 Vect2::operator/(const int& s) const
+{
+    return Vect2(x * s, y * s);
 }
 
 void Collection::write_to_file(const string& file, char mode) const
